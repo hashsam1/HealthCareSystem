@@ -10,7 +10,10 @@ import AddPatient from './components/Patients/AddPatient.jsx';
 import PatientList from './components/Patients/PatientList.jsx';
 import ViewPatient from './components/Patients/ViewPatient.jsx';
 
-import AppointmentsPage from './pages/AppointmentsPage.jsx';
+import AddAppointment from './components/Appointments/AddAppointment.jsx';
+import AppointmentList from './components/Appointments/AppointmentList.jsx';
+import ViewAppointment from './components/Appointments/ViewAppointment.jsx';
+
 
 import GenerateBill from './components/Billing/GenerateBill.jsx';
 import Login from './components/Login.jsx';
