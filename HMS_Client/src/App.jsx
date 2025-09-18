@@ -33,6 +33,7 @@ function App() {
           <Route path="/patients/add" element={<AddPatient />} />
           <Route path="/patients" element={<PatientList />} />
           <Route path="/patients/:id" element={<ViewPatient />} />
+          
 
           {/* Appointments */}
           <Route path="/appointments/add" element={<AddAppointment />} />
@@ -48,6 +49,7 @@ function App() {
       </NavBar>
       <Footer />
     </Router>
+    
     </div>
   );
 }
