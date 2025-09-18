@@ -10,9 +10,7 @@ import AddPatient from './components/Patients/AddPatient.jsx';
 import PatientList from './components/Patients/PatientList.jsx';
 import ViewPatient from './components/Patients/ViewPatient.jsx';
 
-import AddAppointment from './components/Appointments/AddAppointment.jsx';
-import AppointmentList from './components/Appointments/AppointmentList.jsx';
-import ViewAppointment from './components/Appointments/ViewAppointment.jsx';
+import AppointmentsPage from './pages/AppointmentsPage.jsx';
 
 import GenerateBill from './components/Billing/GenerateBill.jsx';
 import Login from './components/Login.jsx';
@@ -32,9 +30,8 @@ function App() {
         <Route path="/patients/:id" element={<ViewPatient />} />
 
         {/* Appointments */}
-        <Route path="/appointments/add" element={<AddAppointment />} />
-        <Route path="/appointments" element={<AppointmentList />} />
-        <Route path="/appointments/:id" element={<ViewAppointment />} />
+       <Route path="/appointments" element={<AppointmentsPage />} />
+      
 
         {/* Billing */}
         <Route path="/billing" element={<GenerateBill />} />
