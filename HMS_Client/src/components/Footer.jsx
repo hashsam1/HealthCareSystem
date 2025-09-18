@@ -1,7 +1,10 @@
-import React from 'react'
+// src/components/Footer.jsx
+import React from 'react';
 
-export const Footer = () => {
+export default function Footer() {
   return (
-    <div>Footer</div>
-  )
+    <footer style={{ marginTop: '2rem', padding: '1rem', background: '#f4f4f4' }}>
+      © 2025 Healthcare Management System
+    </footer>
+  );
 }
