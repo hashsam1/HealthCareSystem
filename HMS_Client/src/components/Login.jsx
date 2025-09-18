@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { GoogleOAuthProvider, useGoogleLogin } from "@react-oauth/google";
 import React from "react";
+
+const CLIENT_ID = "825183319721-q914ps4kvp1q5s0rohcpnvjsbpq312q3.apps.googleusercontent.com"
 function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
 
@@ -94,7 +96,7 @@ function AuthForm() {
 
 export default function Auth() {
   return (
-    <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
+    <GoogleOAuthProvider clientId={CLIENT_ID}>
       <AuthForm />
     </GoogleOAuthProvider>
   );
