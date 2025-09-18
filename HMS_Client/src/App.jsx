@@ -1,4 +1,4 @@
-// src/App.jsx
+// App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -22,26 +22,28 @@ import './App.css';
 function App() {
   return (
     <Router>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
+      
+      <NavBar>
+        <Routes>
+          <Route path="/dashboard" element={<Dashboard />} />
 
-        {/* Patients */}
-        <Route path="/patients/add" element={<AddPatient />} />
-        <Route path="/patients" element={<PatientList />} />
-        <Route path="/patients/:id" element={<ViewPatient />} />
+          {/* Patients */}
+          <Route path="/patients/add" element={<AddPatient />} />
+          <Route path="/patients" element={<PatientList />} />
+          <Route path="/patients/:id" element={<ViewPatient />} />
 
-        {/* Appointments */}
-        <Route path="/appointments/add" element={<AddAppointment />} />
-        <Route path="/appointments" element={<AppointmentList />} />
-        <Route path="/appointments/:id" element={<ViewAppointment />} />
+          {/* Appointments */}
+          <Route path="/appointments/add" element={<AddAppointment />} />
+          <Route path="/appointments" element={<AppointmentList />} />
+          <Route path="/appointments/:id" element={<ViewAppointment />} />
 
-        {/* Billing */}
-        <Route path="/billing" element={<GenerateBill />} />
+          {/* Billing */}
+          <Route path="/billing" element={<GenerateBill />} />
 
-        {/* Login */}
-        <Route path="/login" element={<Login />} />
-      </Routes>
+          {/* Login */}
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </NavBar>
       <Footer />
     </Router>
   );
