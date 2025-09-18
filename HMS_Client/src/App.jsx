@@ -21,6 +21,8 @@ import './App.css';
 
 function App() {
   return (
+    <div>
+    
     <Router>
       
       <NavBar>
@@ -41,11 +43,12 @@ function App() {
           <Route path="/billing" element={<GenerateBill />} />
 
           {/* Login */}
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
         </Routes>
       </NavBar>
       <Footer />
     </Router>
+    </div>
   );
 }
 

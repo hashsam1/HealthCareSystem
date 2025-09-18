@@ -127,7 +127,7 @@ export default function NavBar({ children }) {
 
           {/* Login */}
           <Link
-            to="/login"
+            to="/"
             className="flex items-center gap-2 py-2 px-3 rounded hover:bg-blue-700"
             onClick={toggleSidebar}
           >
@@ -153,7 +153,7 @@ export default function NavBar({ children }) {
       </div>
      
     </div>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae pariatur amet inventore.
+    
     </div>
   );
 }
