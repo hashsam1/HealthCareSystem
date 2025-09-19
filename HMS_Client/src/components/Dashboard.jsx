@@ -20,11 +20,32 @@ const services = [
 ];
 
 const doctors = [
-  { name: "Dr. Sarah Johnson", specialty: "Cardiologist", photo: "https://randomuser.me/api/portraits/women/44.jpg" },
-  { name: "Dr. Michael Lee", specialty: "Pediatrician", photo: "https://randomuser.me/api/portraits/men/46.jpg" },
-  { name: "Dr. Emily Davis", specialty: "Radiologist", photo: "https://randomuser.me/api/portraits/women/65.jpg" },
-  { name: "Dr. James Smith", specialty: "Surgeon", photo: "https://randomuser.me/api/portraits/men/52.jpg" },
+  { 
+    name: "Dr. Sarah Johnson", 
+    specialty: "Cardiologist", 
+    photo: "https://randomuser.me/api/portraits/women/44.jpg",
+    description: "Experienced in diagnosing and treating heart conditions with a focus on preventive care."
+  },
+  { 
+    name: "Dr. Michael Lee", 
+    specialty: "Pediatrician", 
+    photo: "https://randomuser.me/api/portraits/men/46.jpg",
+    description: "Dedicated to children’s health and development, providing compassionate pediatric care."
+  },
+  { 
+    name: "Dr. Emily Davis", 
+    specialty: "Radiologist", 
+    photo: "https://randomuser.me/api/portraits/women/65.jpg",
+    description: "Specializes in medical imaging to accurately diagnose and support treatment planning."
+  },
+  { 
+    name: "Dr. James Smith", 
+    specialty: "Surgeon", 
+    photo: "https://randomuser.me/api/portraits/men/52.jpg",
+    description: "Expert in performing complex surgical procedures with precision and patient care."
+  },
 ];
+
 
 const testimonials = [
   {
@@ -119,19 +140,19 @@ export default function Dashboard() {
             <div className="absolute bg-black/50 inset-0 "></div>
 
             <div className="relative z-10">
-              <h2 className="text-3xl md:text-5xl font-bold mb-4">
-                Quality Healthcare, Compassionate Staff
+              <h2 className="text-3xl md:text-6xl font-bold mb-4">
+                Your Health,Our Priority
               </h2>
-              <div className="space-x-4">
+              <div className="space-x-4 mt-10">
                 <Link
                   to="/appointments/add"
-                  className="bg-blue-600 px-6 py-2 rounded shadow-lg hover:bg-blue-700 transition"
+                  className="bg-blue-500 px-6 font-bold py-3 rounded-3xl shadow-lg hover:bg-blue-700 transition "
                 >
-                  Add Appointment
+                  Book Appointment
                 </Link>
                 <a
                   href="#doctors"
-                  className="bg-green-600 px-6 py-2 rounded shadow-lg hover:bg-green-700 transition"
+                  className="bg-blue-500 font-bold px-6 py-3 rounded-3xl shadow-lg hover:bg-blue-700 transition"
                 >
                   Find a Doctor
                 </a>
@@ -142,11 +163,11 @@ export default function Dashboard() {
         </section>
 
         {/* Search Bar */}
-        <section className="max-w-3xl mx-auto mt-8 px-4">
+        <section className="max-w-5xl mx-auto mt-8 px-4">
           <input
             type="text"
             placeholder="🔍 Search for a doctor or department..."
-            className="w-full px-4 py-3 border rounded shadow"
+            className="w-full px-4 py-3 rounded-xl shadow bg-gray-200"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -170,11 +191,11 @@ export default function Dashboard() {
           <h3 className="text-2xl font-bold mb-6">Our Doctors</h3>
           <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
             {filteredDoctors.map((doc, i) => (
-              <div key={i} className="bg-white dark:bg-gray-800 rounded shadow p-4 text-center hover:shadow-lg transition">
+              <div key={i} className="bg-white dark:bg-gray-800 rounded shadow p-3 text-center hover:shadow-lg transition">
                 <img src={doc.photo} alt={doc.name} className="w-24 h-24 mx-auto rounded-full object-cover" />
                 <h4 className="mt-2 font-bold">{doc.name}</h4>
                 <p className="text-sm text-gray-600 dark:text-gray-400">{doc.specialty}</p>
-                <button className="mt-2 bg-blue-600 text-white px-3 py-1 rounded">View Profile</button>
+                <p className="mt-2  text-gray-500 py-1">{doc.description}</p>
               </div>
             ))}
           </div>
