@@ -213,8 +213,8 @@ export default function Dashboard() {
         </div>
 
         {/* Footer */}
-        <footer id="contact" className="bg-blue-700 dark:bg-gray-800 text-white text-center py-6 ">
-          <p>&copy; 2025 City Hospital. All rights reserved.</p>
+        <footer id="contact" className=" bg-gradient-to-r from-teal-600 to-blue-600 dark:bg-gray-800 text-white text-center py-6 ">
+          <p className="font-bold">&copy; 2025 City Hospital. All rights reserved.</p>
         </footer>
       </div>
     </div>
