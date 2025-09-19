@@ -1,4 +1,5 @@
 // App.jsx
+import "./App.css";
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./AuthContext";
@@ -17,8 +18,6 @@ import ViewAppointment from "./components/Appointments/ViewAppointment.jsx";
 import GenerateBill from "./components/Billing/GenerateBill.jsx";
 import Login from "./components/Login.jsx";
 
-import "./App.css";
-import Auth from "./components/Login.jsx";
 
 // ProtectedRoute wrapper
 function ProtectedRoute({ children }) {

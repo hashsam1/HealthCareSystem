@@ -133,11 +133,11 @@ export default function NavBar({ children, darkMode, setDarkMode }) {
           >
             {darkMode ? "☀️ Light" : "🌙 Dark"}
           </button> */}
-          
+
         </div>
 
         {/* Render children */}
-        <main className="p-6">{children}</main>
+        <main className="p-0">{children}</main>
       </div>
     </div>
   );
