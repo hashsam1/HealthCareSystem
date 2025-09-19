@@ -114,11 +114,11 @@ export default function NavBar({ children, darkMode, setDarkMode }) {
       {/* Main Content */}
       <div className={`flex-1 transition-all duration-300 ${isOpen ? "ml-64" : "ml-0"}`}>
         {/* Top bar */}
-        <div className="p-4 bg-blue-700 dark:bg-gray-800 text-white shadow flex justify-between items-center">
+        <div className="p-4 bg-gradient-to-r from-blue-100 via-blue-50 to-teal-100 dark:bg-gray-800 text-white shadow flex justify-between items-center">
           <button onClick={toggleSidebar} className="text-2xl">
             <FaBars />
           </button>
-          <h1 className="text-xl font-bold">City Hospital</h1>
+          <h1 className="text-xl font-bold bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent">City Hospital</h1>
           {/* <button
             onClick={() => setDarkMode(!darkMode)}
             className="ml-4 bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded text-black dark:text-white"
