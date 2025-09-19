@@ -31,7 +31,7 @@ export default function NavBar({ children, darkMode, setDarkMode }) {
         className={`fixed top-0 left-0 h-full bg-gradient-to-r from-teal-600 to-blue-600 text-white w-64 transform transition-transform duration-300 z-50
         ${isOpen ? "translate-x-0" : "-translate-x-64"}`}
       >
-        <div className="flex items-center justify-between p-4 border-b border-blue-700">
+        <div className="flex items-center justify-between p-4 border-b border-blue-700 h-20">
           <h2 className="text-lg font-bold">HealthCare System</h2>
           <button onClick={toggleSidebar} className="text-xl">
             ✕
@@ -120,19 +120,13 @@ export default function NavBar({ children, darkMode, setDarkMode }) {
       </div>
 
       {/* Main Content */}
-      <div className={`flex-1 transition-all duration-300 ${isOpen ? "ml-64" : "ml-0"}`}>
+      <div className={`flex-1 transition-all duration-300 ${isOpen ? "ml-64" : "ml-0"} h-20`}>
         {/* Top bar */}
-        <div className="p-4 bg-gradient-to-r from-teal-600 to-blue-600 dark:bg-gray-800 text-white shadow flex justify-between items-center">
+        <div className="p-4 bg-gradient-to-r from-teal-600 to-blue-600 dark:bg-gray-800 text-white shadow h-20 flex justify-between items-center">
           <button onClick={toggleSidebar} className="text-2xl">
             <FaBars />
           </button>
-          <h1 className="text-4xl font-bold">City Hospital</h1>
-          {/* <button
-            onClick={() => setDarkMode(!darkMode)}
-            className="ml-4 bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded text-black dark:text-white"
-          >
-            {darkMode ? "☀️ Light" : "🌙 Dark"}
-          </button> */}
+          <h1 className="text-4xl font-bold">HealthCare</h1>
 
         </div>
 
