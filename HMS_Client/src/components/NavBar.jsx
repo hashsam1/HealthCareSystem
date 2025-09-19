@@ -28,7 +28,7 @@ export default function NavBar({ children, darkMode, setDarkMode }) {
     <div className="flex h-screen">
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full bg-blue-900 text-white w-64 transform transition-transform duration-300 z-50
+        className={`fixed top-0 left-0 h-full bg-gradient-to-r from-teal-600 to-blue-600 text-white w-64 transform transition-transform duration-300 z-50
         ${isOpen ? "translate-x-0" : "-translate-x-64"}`}
       >
         <div className="flex items-center justify-between p-4 border-b border-blue-700">
@@ -122,11 +122,11 @@ export default function NavBar({ children, darkMode, setDarkMode }) {
       {/* Main Content */}
       <div className={`flex-1 transition-all duration-300 ${isOpen ? "ml-64" : "ml-0"}`}>
         {/* Top bar */}
-        <div className="p-4 bg-gradient-to-r from-blue-100 via-blue-50 to-teal-100 dark:bg-gray-800 text-white shadow flex justify-between items-center">
+        <div className="p-4 bg-gradient-to-r from-teal-600 to-blue-600 dark:bg-gray-800 text-white shadow flex justify-between items-center">
           <button onClick={toggleSidebar} className="text-2xl">
             <FaBars />
           </button>
-          <h1 className="text-xl font-bold bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent">City Hospital</h1>
+          <h1 className="text-4xl font-bold">City Hospital</h1>
           {/* <button
             onClick={() => setDarkMode(!darkMode)}
             className="ml-4 bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded text-black dark:text-white"
