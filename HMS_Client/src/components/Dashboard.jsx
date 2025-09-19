@@ -124,7 +124,7 @@ export default function Dashboard() {
     <div >
       <div className="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen">
 
-        <section className="relative w-full h-[600px] overflow-hidden">
+        <section className="relative w-full h-[780px] overflow-hidden">
           {carouselImages.map((img, index) => (
             <img
               key={index}
