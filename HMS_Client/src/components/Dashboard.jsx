@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import NavBar from "./NavBar"; // adjust path to where NavBar.jsx is
-
+import HospitalHistoryChart from "../HospitalHistoryChart";
+import img1 from '../Images/bg_img.png';
 const carouselImages = [
   { src: "https://source.unsplash.com/1600x600/?hospital,building", alt: "Hospital Building" },
   { src: "https://source.unsplash.com/1600x600/?doctor,patient", alt: "Doctor Consulting Patient" },
@@ -91,28 +93,52 @@ export default function Dashboard() {
   );
 
   return (
-    <div darkMode={darkMode} setDarkMode={setDarkMode}>
+    <div >
       <div className="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen">
-        
+
         {/* Hero + Carousel */}
-        <section className="relative w-full h-[400px] overflow-hidden">
+        <section className="relative w-full h-[600px] overflow-hidden">
           {carouselImages.map((img, index) => (
             <img
               key={index}
               src={img.src}
               alt={img.alt}
-              className={`absolute w-full h-full object-cover transition-opacity duration-1000 ${
-                index === currentSlide ? "opacity-100" : "opacity-0"
-              }`}
+              className={`absolute w-full h-full object-cover transition-opacity duration-1000 ${index === currentSlide ? "opacity-100" : "opacity-0"
+                }`}
             />
           ))}
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-40 text-white">
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">Quality Healthcare, Compassionate Staff</h2>
-            <div className="space-x-4">
-              <a href="#appointments" className="bg-blue-600 px-6 py-2 rounded">Book Appointment</a>
-              <a href="#doctors" className="bg-green-600 px-6 py-2 rounded">Find a Doctor</a>
+          <div
+            className="absolute inset-0 flex flex-col items-center justify-center h-[600px] text-white text-center px-4"
+            style={{
+              backgroundImage: `url(${img1})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            {/* Optional: Overlay for better text visibility */}
+            <div className="absolute bg-black/50 inset-0 "></div>
+
+            <div className="relative z-10">
+              <h2 className="text-3xl md:text-5xl font-bold mb-4">
+                Quality Healthcare, Compassionate Staff
+              </h2>
+              <div className="space-x-4">
+                <Link
+                  to="/appointments/add"
+                  className="bg-blue-600 px-6 py-2 rounded shadow-lg hover:bg-blue-700 transition"
+                >
+                  Add Appointment
+                </Link>
+                <a
+                  href="#doctors"
+                  className="bg-green-600 px-6 py-2 rounded shadow-lg hover:bg-green-700 transition"
+                >
+                  Find a Doctor
+                </a>
+              </div>
             </div>
           </div>
+
         </section>
 
         {/* Search Bar */}
@@ -179,6 +205,7 @@ export default function Dashboard() {
             </div>
           ))}
         </section>
+        <HospitalHistoryChart />
 
         {/* Emergency Bar */}
         <div className="bg-red-600 text-white text-center py-2 font-bold mt-12">
@@ -186,7 +213,7 @@ export default function Dashboard() {
         </div>
 
         {/* Footer */}
-        <footer id="contact" className="bg-blue-700 dark:bg-gray-800 text-white text-center py-6 mt-12">
+        <footer id="contact" className="bg-blue-700 dark:bg-gray-800 text-white text-center py-6 ">
           <p>&copy; 2025 City Hospital. All rights reserved.</p>
         </footer>
       </div>
