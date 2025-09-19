@@ -1,21 +1,75 @@
 import { useState } from "react";
 import { GoogleOAuthProvider, useGoogleLogin } from "@react-oauth/google";
 import React from "react";
+import CryptoJS from "crypto-js";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext";
 
-const CLIENT_ID = "825183319721-q914ps4kvp1q5s0rohcpnvjsbpq312q3.apps.googleusercontent.com"
+const CLIENT_ID =
+  "825183319721-q914ps4kvp1q5s0rohcpnvjsbpq312q3.apps.googleusercontent.com";
+
 function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
-
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate()
+  const {login} = useAuth();
+  
   // Google login handler
-  const login = useGoogleLogin({
+  const LoginGoogle = useGoogleLogin({
     onSuccess: (res) => {
-      console.log("Google Login Success:", res);
-      // TODO: send res.access_token or res.credential to backend
-    },
+  console.log("Google Login Success:", res);
+  localStorage.setItem("google_token", res.access_token || res.credential);
+  login(); // <-- update context state immediately
+  navigate("/dashboard");
+},
     onError: () => {
       console.log("Google Login Failed");
     },
   });
+
+  // Handle signup
+  const handleSignup = (e) => {
+    e.preventDefault();
+    if (!username || !password) {
+      alert("Please enter username and password");
+      return;
+    }
+    const passwordHash = CryptoJS.SHA256(password).toString();
+    const userData = { username, passwordHash };
+
+    localStorage.setItem("user", JSON.stringify(userData));
+
+    alert("Signup successful! You can now login.");
+    setIsLogin(true);
+    setUsername("");
+    setPassword("");
+  };
+
+  // Handle login
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const savedUser = JSON.parse(localStorage.getItem("user"));
+
+    if (!savedUser) {
+      alert("No user found. Please sign up first.");
+      return;
+    }
+
+    const enteredHash = CryptoJS.SHA256(password).toString();
+
+    if (
+      savedUser.username === username &&
+      savedUser.passwordHash === enteredHash
+    ) {
+      login(); // <-- call AuthContext login()
+      alert("Login successful!");
+      navigate("/dashboard"); // redirect after login
+    } else {
+      alert("Invalid username or password!");
+    }
+  };
+
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-100 via-blue-50 to-teal-100 font-sans">
@@ -29,22 +83,22 @@ function AuthForm() {
         </p>
 
         {/* Form */}
-        <form className="space-y-4">
-          {!isLogin && (
-            <input
-              type="text"
-              placeholder="Full Name"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-teal-600 focus:ring-1 focus:ring-teal-600"
-            />
-          )}
+        <form
+          className="space-y-4"
+          onSubmit={isLogin ? handleLogin : handleSignup}
+        >
           <input
-            type="email"
-            placeholder="Email"
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-teal-600 focus:ring-1 focus:ring-teal-600"
           />
           <input
             type="password"
             placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-teal-600 focus:ring-1 focus:ring-teal-600"
           />
 
@@ -66,7 +120,7 @@ function AuthForm() {
         {/* Custom Google Login */}
         <div className="flex justify-center">
           <button
-            onClick={() => login()}
+            onClick={() => LoginGoogle()}
             className="flex items-center justify-center w-full py-3 border border-gray-300 rounded-lg shadow-sm bg-white hover:bg-gray-50 transition"
           >
             <img
@@ -74,7 +128,9 @@ function AuthForm() {
               alt="Google"
               className="w-5 h-5 mr-2"
             />
-            <span className="text-gray-700 font-medium">Continue with Google</span>
+            <span className="text-gray-700 font-medium">
+              Continue with Google
+            </span>
           </button>
         </div>
 
