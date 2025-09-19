@@ -3,13 +3,20 @@ import { Link } from "react-router-dom";
 import NavBar from "./NavBar"; // adjust path to where NavBar.jsx is
 import HospitalHistoryChart from "../HospitalHistoryChart";
 import img1 from '../Images/bg_img.png';
+import Cimg1 from '../Images/doctor_counsulting.png';
+import Cimg2 from '../Images/Healthy_Habits.png';
+import Cimg3 from '../Images/Medical_equip.png';
+import Cimg4 from '../Images/Nurse_patient.png';
+
+// Carousel Images (all local)
 const carouselImages = [
-  { src: "https://source.unsplash.com/1600x600/?hospital,building", alt: "Hospital Building" },
-  { src: "https://source.unsplash.com/1600x600/?doctor,patient", alt: "Doctor Consulting Patient" },
-  { src: "https://source.unsplash.com/1600x600/?medical,equipment", alt: "Medical Equipment" },
-  { src: "https://source.unsplash.com/1600x600/?nurse,hospital", alt: "Nurse with Patient" },
-  { src: "https://source.unsplash.com/1600x600/?healthy,lifestyle", alt: "Healthy Lifestyle" },
+  { src: img1, alt: "Hospital Building" },
+  { src: Cimg1, alt: "Doctor Consulting Patient" },
+  { src: Cimg3, alt: "Medical Equipment" },
+  { src: Cimg4, alt: "Nurse with Patient" },
+  { src: Cimg2, alt: "Healthy Lifestyle" },
 ];
+
 
 const services = [
   { name: "Emergency", icon: "🚑" },
@@ -96,7 +103,6 @@ export default function Dashboard() {
     <div >
       <div className="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen">
 
-        {/* Hero + Carousel */}
         <section className="relative w-full h-[600px] overflow-hidden">
           {carouselImages.map((img, index) => (
             <img
@@ -107,17 +113,10 @@ export default function Dashboard() {
                 }`}
             />
           ))}
-          <div
-            className="absolute inset-0 flex flex-col items-center justify-center h-[600px] text-white text-center px-4"
-            style={{
-              backgroundImage: `url(${img1})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          >
-            {/* Optional: Overlay for better text visibility */}
-            <div className="absolute bg-black/50 inset-0 "></div>
 
+          {/* Overlay text */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4">
+            <div className="absolute bg-black/50 inset-0"></div>
             <div className="relative z-10">
               <h2 className="text-3xl md:text-5xl font-bold mb-4">
                 Quality Healthcare, Compassionate Staff
@@ -138,8 +137,8 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-
         </section>
+
 
         {/* Search Bar */}
         <section className="max-w-3xl mx-auto mt-8 px-4">
