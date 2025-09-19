@@ -7,6 +7,7 @@ import {
   FaFileInvoiceDollar,
   FaSignInAlt,
 } from "react-icons/fa";
+import { useAuth } from "../AuthContext";
 
 export default function NavBar({ children, darkMode, setDarkMode }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,7 +15,14 @@ export default function NavBar({ children, darkMode, setDarkMode }) {
 
   const toggleSidebar = () => setIsOpen(!isOpen);
   const toggleSubmenu = (menu) =>
-    setOpenMenu(openMenu === menu ? null : menu);
+  setOpenMenu(openMenu === menu ? null : menu);
+
+  const {logout} = useAuth()
+
+  const handleLogout = () => {
+    logout()
+    navigate("/"); //back to login
+  };
 
   return (
     <div className="flex h-screen">
@@ -104,9 +112,9 @@ export default function NavBar({ children, darkMode, setDarkMode }) {
           <Link
             to="/"
             className="flex items-center gap-2 py-2 px-3 rounded hover:bg-blue-700"
-            onClick={toggleSidebar}
+            onClick={handleLogout}
           >
-            <FaSignInAlt /> Login
+            <FaSignInAlt /> Logout
           </Link>
         </nav>
       </div>
