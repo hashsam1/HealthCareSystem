@@ -4,6 +4,7 @@ package com.example.HMS.billings.model;
 
 import java.time.LocalDate;
 
+import com.example.HMS.patients.model.Appointments;
 import com.example.HMS.patients.model.Patient;
 import jakarta.persistence.*;
 
@@ -26,10 +27,10 @@ public class Bill {
 
     //one patient one many bill
         @OneToOne
-        @JoinColumn(name="patientId")
-       private Patient patient;
+        @JoinColumn(name="appointment_id")
+       private Appointments appointment;
 
-        private int amount;
+        private double amount;
         private LocalDate billingDate;
         @Enumerated(EnumType.STRING)
         private BillStatus status;
@@ -44,8 +45,8 @@ public class Bill {
     }
 
 
-    public Bill(Patient patient, int amount, BillStatus status) {
-        this.patient = patient;
+    public Bill( double amount, BillStatus status) {
+
         this.amount = amount;
         this.status = status;
     }
@@ -54,7 +55,6 @@ public class Bill {
     public String toString() {
         return "Bill{" +
                 "billId=" + billId +
-                ", patientId=" + (patient != null ? patient.getId() : null) +
                 ", amount=" + amount +
                 ", billingDate=" + billingDate +
                 ", status=" + status +
@@ -67,19 +67,13 @@ public class Bill {
 
 
 
-    public Patient getPatient() {
-        return patient;
-    }
 
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

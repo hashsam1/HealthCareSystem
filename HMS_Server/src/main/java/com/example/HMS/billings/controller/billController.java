@@ -9,12 +9,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.HMS.billings.model.Bill;
 import com.example.HMS.billings.repository.BillRepository;
 
+import java.util.List;
+
 @RestController
 public class BillController {
 
     @Autowired
     BillRepository billRepository;
 
+    //get all bill
+    @GetMapping("/bill")
+    public List<Bill> getBills() {
+        return billRepository.findAll();
+    }
     // get bill details
     @GetMapping("/bill/{id}")
     public String getBillDetails(@PathVariable int id) {

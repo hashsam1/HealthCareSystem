@@ -1,6 +1,7 @@
 package com.example.HMS.insurances.model;
 import java.util.Date;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
@@ -10,20 +11,21 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Claim {
     public enum ClaimStatus {
         PENDING,
-        APPROVED
+        APPROVED,
+        REJECTED
     }
-
+    @Id
     private String claimId;
     private String policyId;
     private ClaimStatus claimStatus;
-    private int claimAmount;
+    private double claimAmount;
     private Date claimDate;
 
     public Claim() {
         // Default constructor
     }
 
-    public Claim(String claimId, String policyId, ClaimStatus claimStatus, int claimAmount, Date claimDate) {
+    public Claim(String claimId, String policyId, ClaimStatus claimStatus, double claimAmount, Date claimDate) {
         this.claimId = claimId;
         this.policyId = policyId;
         this.claimStatus = claimStatus;
@@ -55,11 +57,11 @@ public class Claim {
         this.claimStatus = claimStatus;
     }
 
-    public int getClaimAmount() {
+    public double getClaimAmount() {
         return claimAmount;
     }
 
-    public void setClaimAmount(int claimAmount) {
+    public void setClaimAmount(double claimAmount) {
         this.claimAmount = claimAmount;
     }
 

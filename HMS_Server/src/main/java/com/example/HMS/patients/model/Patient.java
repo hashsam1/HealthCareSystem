@@ -1,15 +1,16 @@
 package com.example.HMS.patients.model;
 import com.example.HMS.billings.model.Bill;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.OneToOne;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import jakarta.persistence.Column;
-@Document(collection = "patients")
+import jakarta.persistence.*;
+
+import java.util.List;
+
+
+@Entity
+@Table(name = "Patients")
 public class Patient {
 
     @Id
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // Patient ID
 
     private String name;
@@ -17,8 +18,8 @@ public class Patient {
     private int age;
     @Column(unique = true)
     private String phoneNumber;
-    @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL)
-    private Bill bill;
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    private List<Appointments> appointment;
     // Default constructor
     public Patient() {}
 
@@ -36,17 +37,14 @@ public class Patient {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
     }
 
 
-    public void setName(String firstName) {
-        this.name = firstName;
+    public void setName(String name) {
+        this.name =name;
     }
 
     public String getPhoneNumber() {
