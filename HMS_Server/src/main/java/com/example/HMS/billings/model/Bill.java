@@ -3,6 +3,7 @@
 package com.example.HMS.billings.model;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 import com.example.HMS.patients.model.Appointments;
 import com.example.HMS.patients.model.Patient;
@@ -37,7 +38,8 @@ public class Bill {
 
     @PrePersist
     protected void onCreate() {
-        this.billingDate = LocalDate.now();
+
+        this.billingDate = LocalDate.now(ZoneId.of("UTC"));
     }    
 
     public Bill() {
