@@ -4,6 +4,7 @@ import com.example.HMS.patients.model.Appointments;
 import com.example.HMS.patients.model.Patient;
 import com.example.HMS.patients.service.AppointmentsService;
 import com.example.HMS.patients.service.PatientService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,18 +33,17 @@ public class AppointmentController {
 
         Optional<Patient> patientOptional = patientService.getPatientById(patientId);
 
-// If the patient is not found, return a 404 error
+        // If the patient is not found, return a 404 error
         if (!patientOptional.isPresent()) {
             return ResponseEntity.status(404).body("Patient not found with id " + patientId);
         }
 
-// Get the patient object from the Optional
+        // Get the patient object from the Optional
         Patient patient = patientOptional.get();
 
         // Set the patient to the appointment
         appointment.setPatient(patient);
 
-        //**//
         // Create and save the appointment
         Appointments saved = appointmentsService.createAppointment(appointment);
         return ResponseEntity.ok(saved);
@@ -61,6 +61,15 @@ public class AppointmentController {
             return ResponseEntity.ok(appointmentsService.getAppointmentById(id));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
+        }
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Appointments> updatePatient(@PathVariable Long id, @RequestBody Appointments appointmentDetails) {
+        try {
+            Appointments updateAppointmentStatus = appointmentsService.updateAppointment(id, appointmentDetails);
+            return ResponseEntity.ok(updateAppointmentStatus);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 }

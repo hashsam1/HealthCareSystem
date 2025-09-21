@@ -31,12 +31,6 @@ public class PatientController {
         Patient createdPatient = patientService.createPatient(patient);
         return new ResponseEntity<>(createdPatient, HttpStatus.CREATED);
     }
-//    @PostMapping
-//    public ResponseEntity<List<Patient>> createPatients(@RequestBody List<Patient> patient) {
-//        List<Patient> createdPatients = patientService.createPatient(patient);
-//        return new ResponseEntity<>(createdPatients, HttpStatus.CREATED);
-//    }
-
 
     // Endpoint to get all patients
     @GetMapping
@@ -63,12 +57,6 @@ public class PatientController {
         }
     }
 
-    // Endpoint to delete a patient
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deletePatient(@PathVariable Long id) {
-//        patientService.deletePatient(id);
-//        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePatient(@PathVariable Long id) {

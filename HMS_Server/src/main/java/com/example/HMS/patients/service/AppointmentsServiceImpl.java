@@ -5,7 +5,6 @@ import com.example.HMS.patients.model.Appointments;
 import com.example.HMS.patients.model.Patient;
 import com.example.HMS.patients.repository.AppointmentsRepository;
 import com.example.HMS.patients.repository.PatientRepository;
-import com.example.HMS.patients.service.AppointmentsService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,4 +43,22 @@ public class AppointmentsServiceImpl implements AppointmentsService {
         return appointmentsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Appointment not found"));
     }
+
+    @Override
+    public Appointments updateAppointment(Long id, Appointments updatedDetails) {
+        Appointments existing = appointmentsRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+        existing.setDoctor_name(updatedDetails.getDoctor_name());
+        existing.setTime_of_appointment(updatedDetails.getTime_of_appointment());
+        existing.setStatus(updatedDetails.getStatus());
+        // If patient info needs to be updated
+        if (updatedDetails.getPatient() != null) {
+            existing.setPatient(updatedDetails.getPatient());
+        }
+        return appointmentsRepository.save(existing);
+    }
+
+
+
+
 }
