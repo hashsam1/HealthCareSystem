@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/appointments")
+@CrossOrigin(origins = "http://localhost:5173")  // allow React dev server
 public class AppointmentController {
 
     private final AppointmentsService appointmentsService;

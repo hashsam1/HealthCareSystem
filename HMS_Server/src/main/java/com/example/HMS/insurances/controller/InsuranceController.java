@@ -14,6 +14,7 @@ import com.example.HMS.insurances.repository.PostRepository;
 
 
 @RestController
+
 public class InsuranceController {
 
 
@@ -24,7 +25,6 @@ public class InsuranceController {
     @GetMapping("/claim/{id}")
     public String getInsuranceDetails(@PathVariable("id") String claimId) {
         return postRepository.findById(claimId).toString();
-
     }
 
     // create insurance claim
