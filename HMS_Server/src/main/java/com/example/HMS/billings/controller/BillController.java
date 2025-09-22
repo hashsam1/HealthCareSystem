@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/bill")
+@CrossOrigin(origins = "http://localhost:5173") 
 public class BillController {
 
     @Autowired
