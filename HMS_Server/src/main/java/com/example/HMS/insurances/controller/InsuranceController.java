@@ -1,41 +1,40 @@
-
 package com.example.HMS.insurances.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import com.example.HMS.insurances.model.Claim;
+import com.example.HMS.insurances.service.ClaimService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.HMS.insurances.model.Claim;
-import com.example.HMS.insurances.repository.PostRepository;
 
-import java.util.Optional;
-
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/claims")
+@RequestMapping("/claims")
 public class InsuranceController {
 
+    private final ClaimService claimService;
 
-    @Autowired
-    PostRepository postRepository;
+    public InsuranceController(ClaimService claimService) {
+        this.claimService = claimService;
+    }
 
-    // get claim details
+    @GetMapping
+    public List<Claim> getAllClaims() {
+        return claimService.getAllClaims();
+    }
 
+    // Get claim details
     @GetMapping("/{id}")
-    public ResponseEntity<Claim> getInsuranceDetails(@PathVariable("id") String claimId) {
-        Optional<Claim> claim = postRepository.findById(claimId);
-
-        if (claim.isPresent()) {
-            return ResponseEntity.ok(claim.get());  // Spring Boot automatically serializes to JSON
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);  // If claim not found
-        }
-    }
-    // create insurance claim
-    @PostMapping("/create")
-    public ResponseEntity<Claim> postInsuranceClaim(@RequestBody Claim claim) {
-        Claim savedClaim = postRepository.save(claim);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedClaim);  // Return saved claim as JSON
+    public Claim getInsuranceDetails(@PathVariable("id") String claimId) {
+        return claimService.getClaimById(claimId);
     }
 
-} 
+    // Create insurance claim (use Claim directly)
+    @PostMapping
+    public Claim postInsuranceClaim(@RequestBody Claim claim) {
+        return claimService.createAndSendClaim(
+                claim.getClaimAmount(),
+                claim.getPolicyId(),
+                claim.getBillId()
+        );
+    }
+}

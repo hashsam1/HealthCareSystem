@@ -67,16 +67,6 @@ public class Patient {
     public void setAge(int age){
         this.age= age;
     }
-
-
-    //**//
-    public Long getPatientId() {
-        return id;
-    }
-    public void setPatientId(Long patientId) {
-        this.id=patientId;
-    }
-    //**///
 }
 
 

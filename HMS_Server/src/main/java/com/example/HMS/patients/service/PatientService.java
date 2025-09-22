@@ -9,10 +9,6 @@ import com.example.HMS.patients.repository.PatientRepository;
 public class PatientService {
     @Autowired
     private PatientRepository patientRepository;
-    public PatientService(PatientRepository patientRepository) {
-        this.patientRepository = patientRepository;
-    }
-
 
     // Create a new patient
     public Patient createPatient(Patient patient) {
@@ -35,21 +31,8 @@ public class PatientService {
         existingPatient.setAge(patientDetails.getAge());
         return patientRepository.save(existingPatient);
     }
-
     public void deletePatient(Long id) {
-
         patientRepository.deleteById(id);
-//        if (patientRepository.existsById(id)) {
-//            patientRepository.deleteById(id);
-//        } else {
-//            throw new PatientNotFoundException("Patient not found with id " + id);
-//        }
     }
-
-    public boolean existsById(Long id) {
-        return patientRepository.findById(id).isPresent(); // returns true if patient exists, false if not
-    }
-
-
 }
 
