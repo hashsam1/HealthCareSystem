@@ -14,15 +14,16 @@ export default function AddAppointment() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // build request body in the same shape as your JPA model
+    // payload for appointment
     const payload = {
       doctor_name: form.doctor_name,
       time_of_appointment: form.time_of_appointment,
       status: form.status,
-      patient: { id: Number(form.patientId) }, // only send patient ID
+      patient: { patientId: Number(form.patientId) }, // ✅ backend expects patientId
     };
 
     try {
+      // Step 1: create appointment
       const response = await fetch("http://localhost:9090/api/appointments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -30,9 +31,44 @@ export default function AddAppointment() {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        console.log("✅ Appointment created:", data);
-        alert("Appointment created successfully!");
+        const appointment = await response.json();
+        console.log("✅ Appointment created:", appointment);
+
+        // Step 2: create bill for this appointment
+        const billPayload = {
+          appointment: { appointment_id: appointment.appointment_id },
+          amount: 500,
+          status: "PAID",
+        };
+
+        const billResponse = await fetch(
+          "http://localhost:9090/bill/create",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(billPayload),
+          }
+        );
+
+        if (billResponse.ok) {
+          const billText = await billResponse.text(); // 👈 plain text
+          console.log("✅ Bill created (raw):", billText);
+
+          // Step 3: fetch structured JSON bill via byAppointment endpoint
+          const billJsonRes = await fetch(
+            `http://localhost:9090/byAppointment/${appointment.appointment_id}`
+          );
+          if (billJsonRes.ok) {
+            const billJson = await billJsonRes.json();
+            console.log("📦 Bill fetched as JSON:", billJson);
+            alert("Appointment & Bill created successfully!");
+          } else {
+            alert("Appointment created, but error fetching bill JSON");
+          }
+        } else {
+          console.error("❌ Failed to create bill");
+          alert("Appointment created, but error creating bill");
+        }
 
         // reset form
         setForm({
