@@ -1,5 +1,6 @@
 package com.example.HMS.patients.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import com.example.HMS.patients.model.Appointments;
 import com.example.HMS.patients.model.Patient;
 import com.example.HMS.patients.service.AppointmentsService;

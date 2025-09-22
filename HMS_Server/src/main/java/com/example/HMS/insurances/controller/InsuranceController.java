@@ -4,6 +4,7 @@ import com.example.HMS.insurances.model.Claim;
 import com.example.HMS.insurances.service.ClaimService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 
