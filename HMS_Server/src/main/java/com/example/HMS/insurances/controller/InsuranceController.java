@@ -2,19 +2,18 @@
 package com.example.HMS.insurances.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import com.example.HMS.insurances.model.Claim;
 import com.example.HMS.insurances.repository.PostRepository;
 
+import java.util.Optional;
+
 
 @RestController
-
+@RequestMapping("/api/claims")
+@CrossOrigin(origins = "http://localhost:5173") 
 public class InsuranceController {
 
 
@@ -22,16 +21,24 @@ public class InsuranceController {
     PostRepository postRepository;
 
     // get claim details
-    @GetMapping("/claim/{id}")
-    public String getInsuranceDetails(@PathVariable("id") String claimId) {
-        return postRepository.findById(claimId).toString();
-    }
 
-    // create insurance claim
-    @PostMapping("/claim/create")
-    public String postInsuranceClaim(@RequestBody Claim claim) {
-        return postRepository.save(claim).toString();
+    @GetMapping("/{id}")
+    public ResponseEntity<Claim> getInsuranceDetails(@PathVariable("id") String claimId) {
+        Optional<Claim> claim = postRepository.findById(claimId);
+
+        if (claim.isPresent()) {
+            return ResponseEntity.ok(claim.get());  // Spring Boot automatically serializes to JSON
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);  // If claim not found
+        }
     }
+    // create insurance claim
+    @PostMapping("/create")
+    public ResponseEntity<Claim> postInsuranceClaim(@RequestBody Claim claim) {
+        Claim savedClaim = postRepository.save(claim);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedClaim);  // Return saved claim as JSON
+    }
+   
 
 
 } 

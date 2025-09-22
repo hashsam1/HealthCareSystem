@@ -60,12 +60,16 @@ public class PatientController {
         }
     }
 
-    // Endpoint to delete a patient
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePatient(@PathVariable Long id) {
+        if (!patientService.existsById(id)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
         patientService.deletePatient(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
 }
 
 

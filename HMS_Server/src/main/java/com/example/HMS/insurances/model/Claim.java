@@ -23,6 +23,8 @@ public class Claim {
 
     public Claim() {
         // Default constructor
+        // Automatically set claimDate to current date
+        this.claimDate = new Date();
     }
 
     public Claim(String claimId, String policyId, ClaimStatus claimStatus, double claimAmount, Date claimDate) {
@@ -30,7 +32,7 @@ public class Claim {
         this.policyId = policyId;
         this.claimStatus = claimStatus;
         this.claimAmount = claimAmount;
-        this.claimDate = claimDate;
+        this.claimDate = new Date();  // Automatically set claimDate to current date
     }
 
     public String getClaimId() {
@@ -72,4 +74,15 @@ public class Claim {
     public void setClaimDate(Date claimDate) {
         this.claimDate = claimDate;
     }
-}
+    @Override
+    public String toString() {
+        return "Claim{" +
+                "claimId='" + claimId + '\'' +
+                ", policyId='" + policyId + '\'' +
+                ", claimStatus=" + claimStatus +
+                ", claimAmount=" + claimAmount +
+                ", claimDate=" + claimDate +
+                '}';
+    }
+
+    }
