@@ -20,6 +20,7 @@ public class Patient {
     private String phoneNumber;
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     private List<Appointments> appointment;
+
     // Default constructor
     public Patient() {}
 
@@ -33,10 +34,14 @@ public class Patient {
     }
 
     // Getters and Setters
+
     public Long getId() {
         return id;
     }
 
+    public void setId(Long id) {   // <-- add this
+        this.id = id;
+    }
 
     public String getName() {
         return name;

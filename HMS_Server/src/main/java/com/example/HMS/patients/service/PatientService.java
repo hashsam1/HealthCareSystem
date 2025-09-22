@@ -7,12 +7,11 @@ import com.example.HMS.patients.model.Patient;
 import com.example.HMS.patients.repository.PatientRepository;
 @Service
 public class PatientService {
-    @Autowired
+
     private PatientRepository patientRepository;
     public PatientService(PatientRepository patientRepository) {
         this.patientRepository = patientRepository;
     }
-
 
     // Create a new patient
     public Patient createPatient(Patient patient) {
@@ -39,11 +38,6 @@ public class PatientService {
     public void deletePatient(Long id) {
 
         patientRepository.deleteById(id);
-//        if (patientRepository.existsById(id)) {
-//            patientRepository.deleteById(id);
-//        } else {
-//            throw new PatientNotFoundException("Patient not found with id " + id);
-//        }
     }
 
     public boolean existsById(Long id) {
