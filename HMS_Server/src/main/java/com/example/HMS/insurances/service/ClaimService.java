@@ -47,6 +47,8 @@ public class ClaimService {
         Claim claim = new Claim();
         claim.setPolicyId(policyId);
         claim.setClaimAmount(amount);
+        claim.setBillId(billId);                  // ✅ set billId
+        claim.setClaimDate(new java.util.Date());
         claim.setClaimStatus(Claim.ClaimStatus.PENDING);
         claim = claimRepository.save(claim);
 

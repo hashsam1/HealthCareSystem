@@ -58,6 +58,7 @@ public class Bill {
                 ", amount=" + amount +
                 ", billingDate=" + billingDate +
                 ", status=" + status +
+                ", appointment=" +  (appointment != null ? appointment.getAppointment_id() : null) +
                 '}';
     }
 
