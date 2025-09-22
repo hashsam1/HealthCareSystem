@@ -10,5 +10,7 @@ public interface AppointmentsService {
     Appointments createAppointment(Appointments appointment);
     List<Appointments> getAllAppointments();
     Appointments getAppointmentById(Long id);
+    Appointments completeAppointment(Long id);
+
 }
 

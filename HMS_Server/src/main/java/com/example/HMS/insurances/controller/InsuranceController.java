@@ -1,37 +1,40 @@
-
 package com.example.HMS.insurances.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import com.example.HMS.insurances.model.Claim;
-import com.example.HMS.insurances.repository.PostRepository;
+import com.example.HMS.insurances.service.ClaimService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 @RestController
+@RequestMapping("/claims")
 public class InsuranceController {
 
+    private final ClaimService claimService;
 
-    @Autowired
-    PostRepository postRepository;
-
-    // get claim details
-    @GetMapping("/claim/{id}")
-    public String getInsuranceDetails(@PathVariable("id") String claimId) {
-        return postRepository.findById(claimId).toString();
-
+    public InsuranceController(ClaimService claimService) {
+        this.claimService = claimService;
     }
 
-    // create insurance claim
-    @PostMapping("/claim/create")
-    public String postInsuranceClaim(@RequestBody Claim claim) {
-        return postRepository.save(claim).toString();
+    @GetMapping
+    public List<Claim> getAllClaims() {
+        return claimService.getAllClaims();
     }
 
+    // Get claim details
+    @GetMapping("/{id}")
+    public Claim getInsuranceDetails(@PathVariable("id") String claimId) {
+        return claimService.getClaimById(claimId);
+    }
 
-} 
+    // Create insurance claim (use Claim directly)
+    @PostMapping
+    public Claim postInsuranceClaim(@RequestBody Claim claim) {
+        return claimService.createAndSendClaim(
+                claim.getClaimAmount(),
+                claim.getPolicyId(),
+                claim.getBillId()
+        );
+    }
+}

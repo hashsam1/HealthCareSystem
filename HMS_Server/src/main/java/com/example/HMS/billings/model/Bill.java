@@ -66,7 +66,13 @@ public class Bill {
     }
 
 
+    public Appointments getAppointment() {
+        return appointment;
+    }
 
+    public void setAppointment(Appointments appointment) {
+        this.appointment = appointment;
+    }
 
 
     public double getAmount() {

@@ -4,7 +4,6 @@ import com.example.HMS.patients.model.Appointments;
 import com.example.HMS.patients.service.AppointmentsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -22,6 +21,15 @@ public class AppointmentController {
         try {
             Appointments saved = appointmentsService.createAppointment(appointment);
             return ResponseEntity.ok(saved);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    @PutMapping("/{id}/complete")
+    public ResponseEntity<?> completeAppointment(@PathVariable Long id) {
+        try {
+            Appointments completed = appointmentsService.completeAppointment(id);
+            return ResponseEntity.ok(completed);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

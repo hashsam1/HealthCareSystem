@@ -5,7 +5,6 @@ import com.example.HMS.insurances.repository.PostRepository;
 import org.springframework.stereotype.Service;
 
 import com.example.HMS.insurances.model.*;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import com.example.HMS.billings.model.Bill;
 import org.springframework.kafka.annotation.KafkaListener;
 
@@ -29,10 +28,8 @@ public class ClaimResponseListener {
         if ("APPROVED".equalsIgnoreCase(resp.getStatus())) {
             claim.setClaimStatus(Claim.ClaimStatus.APPROVED);
 
-            // mark bill as paid
-            Bill bill = billRepository.findAll().stream()
-                    .filter(b -> b.getAmount() == claim.getClaimAmount())
-                    .findFirst().orElse(null);
+            Bill bill = billRepository.findById(claim.getBillId()).orElse(null);
+
             if (bill != null) {
                 bill.setStatus(Bill.BillStatus.PAID);
                 billRepository.save(bill);

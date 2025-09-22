@@ -8,6 +8,7 @@ import com.example.HMS.insurances.repository.PostRepository;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -25,12 +26,22 @@ public class ClaimService {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void createAndSendClaim(double amount, String policyId) {
-        // Create Bill
-        Bill bill = new Bill();
-        bill.setAmount(amount);
-        bill.setStatus(Bill.BillStatus.UNPAID);
-        billRepository.save(bill);
+    public Claim getClaimById(String claimId) {
+        return claimRepository.findById(claimId).orElse(null);
+    }
+    public List<Claim> getAllClaims() {
+        return claimRepository.findAll();
+    }
+    public Claim createAndSendClaim(double amount, String policyId,int billId) {
+        Claim existingClaim = claimRepository.findByBillId(billId);
+        if (existingClaim != null) {
+            throw new IllegalStateException("A claim already exists for this billId: " + billId);
+        }
+
+        // Fetch the bill
+        Bill bill = billRepository.findById(billId)
+                .orElseThrow(() -> new IllegalArgumentException("Bill not found with id: " + billId));
+
 
         // Create Claim
         Claim claim = new Claim();
@@ -46,6 +57,10 @@ public class ClaimService {
                 amount,
                 UUID.randomUUID().toString()
         );
+        System.out.println(" Sending claim request event for claimId: " + claim.getClaimId());
+
         kafkaTemplate.send("claims.requests", event);
+        System.out.println(" Sent claim request: " + event.getClaimId());
+        return claim;
     }
 }
