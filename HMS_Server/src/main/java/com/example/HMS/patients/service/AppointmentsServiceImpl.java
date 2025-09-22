@@ -46,7 +46,7 @@ public class AppointmentsServiceImpl implements AppointmentsService {
         return appointmentsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Appointment not found"));
     }
-<<<<<<< HEAD
+
 
     @Override
     public Appointments updateAppointment(Long id, Appointments updatedDetails) {
@@ -62,10 +62,6 @@ public class AppointmentsServiceImpl implements AppointmentsService {
         return appointmentsRepository.save(existing);
     }
 
-
-
-
-=======
     @Override
     public Appointments completeAppointment(Long id) {
         // 1. Find appointment
@@ -92,5 +88,5 @@ public class AppointmentsServiceImpl implements AppointmentsService {
 
         return saved;
     }
->>>>>>> 62d5d28dd19cb15f75a2a9b7b0c5f30a8d7ac0ff
+
 }

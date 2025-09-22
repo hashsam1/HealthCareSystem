@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/claims")
+@CrossOrigin(origins = "http://localhost:5173") 
 public class InsuranceController {
 
     private final ClaimService claimService;
