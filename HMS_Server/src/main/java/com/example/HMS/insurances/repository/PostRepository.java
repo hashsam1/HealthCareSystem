@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PostRepository extends MongoRepository<Claim, String> {
-
+    Claim findByBillId(int billId);
 }

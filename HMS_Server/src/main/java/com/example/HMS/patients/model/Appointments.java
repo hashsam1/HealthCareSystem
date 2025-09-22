@@ -9,6 +9,11 @@ import jakarta.persistence.*;
 @Table(name = "appointments")
 
 public class Appointments {
+
+    public enum AppointmentStatus {
+        SCHEDULED,
+        COMPLETED
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long appointment_id;
@@ -23,10 +28,12 @@ public class Appointments {
 
     private String doctor_name;
     private LocalTime time_of_appointment;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AppointmentStatus status;
 
     public Appointments() {}
-    public Appointments(Long appointment_id, String doctor_name, Patient patient, LocalTime time_of_appointment, String status) {
+    public Appointments(Long appointment_id, String doctor_name, Patient patient, LocalTime time_of_appointment, AppointmentStatus status) {
         this.appointment_id = appointment_id;
         this.doctor_name = doctor_name;
         this.patient = patient;
@@ -66,11 +73,13 @@ public class Appointments {
         this.time_of_appointment = time_of_appointment;
     }
 
-    public String getStatus() {
+    public AppointmentStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(AppointmentStatus status) {
         this.status = status;
     }
+
+
 }

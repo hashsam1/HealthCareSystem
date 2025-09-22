@@ -7,7 +7,6 @@ import com.example.HMS.patients.service.PatientService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -48,6 +47,15 @@ public class AppointmentController {
         // Create and save the appointment
         Appointments saved = appointmentsService.createAppointment(appointment);
         return ResponseEntity.ok(saved);
+    }
+    @PutMapping("/{id}/complete")
+    public ResponseEntity<?> completeAppointment(@PathVariable Long id) {
+        try {
+            Appointments completed = appointmentsService.completeAppointment(id);
+            return ResponseEntity.ok(completed);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 

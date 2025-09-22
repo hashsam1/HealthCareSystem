@@ -20,6 +20,7 @@ public class Claim {
     private ClaimStatus claimStatus;
     private double claimAmount;
     private Date claimDate;
+    private int billId;
 
     public Claim() {
         // Default constructor
@@ -27,14 +28,16 @@ public class Claim {
         this.claimDate = new Date();
     }
 
-    public Claim(String claimId, String policyId, ClaimStatus claimStatus, double claimAmount, Date claimDate) {
+    public Claim(String claimId,int billId, String policyId, ClaimStatus claimStatus, double claimAmount, Date claimDate) {
         this.claimId = claimId;
         this.policyId = policyId;
         this.claimStatus = claimStatus;
         this.claimAmount = claimAmount;
-        this.claimDate = new Date();  // Automatically set claimDate to current date
+        this.claimDate = claimDate;
+        this.billId = billId;
     }
-
+    public int getBillId() { return billId; }
+    public void setBillId(int billId) { this.billId = billId; }
     public String getClaimId() {
         return claimId;
     }
