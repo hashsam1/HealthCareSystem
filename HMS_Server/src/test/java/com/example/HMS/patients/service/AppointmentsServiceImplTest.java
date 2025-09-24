@@ -1,5 +1,7 @@
 package com.example.HMS.patients.service;
+import com.example.HMS.patients.repository.PatientRepository;
 
+import org.springframework.kafka.core.KafkaTemplate;
 import com.example.HMS.patients.model.Appointments;
 import com.example.HMS.patients.model.Patient;
 import com.example.HMS.patients.repository.AppointmentsRepository;
@@ -21,6 +23,11 @@ class AppointmentsServiceImplTest {
 
     @Mock
     private AppointmentsRepository appointmentsRepository;
+    @Mock
+private PatientRepository patientRepository; 
+
+    @Mock
+    private KafkaTemplate<String, Object> kafkaTemplate;
 
     @InjectMocks
     private AppointmentsServiceImpl appointmentsService;
@@ -32,10 +39,14 @@ class AppointmentsServiceImplTest {
 
     @Test
     void testCreateAppointment() {
+        Patient patient = new Patient();
+        patient.setId(1L);
         Appointments appointment = new Appointments(
-                1L, "Dr. Smith", new Patient(), LocalTime.of(10, 0),
+                1L, "Dr. Smith", patient, LocalTime.of(10, 0),
                 Appointments.AppointmentStatus.SCHEDULED
         );
+        
+when(patientRepository.findById(1L)).thenReturn(Optional.of(patient));
         when(appointmentsRepository.save(appointment)).thenReturn(appointment);
 
         Appointments result = appointmentsService.createAppointment(appointment);

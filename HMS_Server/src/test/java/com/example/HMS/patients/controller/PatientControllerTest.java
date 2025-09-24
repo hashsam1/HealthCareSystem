@@ -112,12 +112,14 @@ class PatientControllerTest {
 
     @Test
     void testDeletePatient() {
+        when(patientService.existsById(1L)).thenReturn(true); 
         doNothing().when(patientService).deletePatient(1L);
 
         ResponseEntity<Void> response = patientController.deletePatient(1L);
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         assertNull(response.getBody());
+        verify(patientService).existsById(1L);  
         verify(patientService).deletePatient(1L);
     }
 }
