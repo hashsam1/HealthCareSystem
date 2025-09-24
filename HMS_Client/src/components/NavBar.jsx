@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";  
+
 import {
   FaBars,
   FaUserInjured,
@@ -13,6 +14,8 @@ export default function NavBar({ children, darkMode, setDarkMode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState(null);
 
+  const navigate = useNavigate(); 
+  
   const toggleSidebar = () => setIsOpen(!isOpen);
   const toggleSubmenu = (menu) =>
   setOpenMenu(openMenu === menu ? null : menu);
@@ -45,6 +48,13 @@ export default function NavBar({ children, darkMode, setDarkMode }) {
             onClick={toggleSidebar}
           >
             Dashboard
+          </Link>
+          <Link
+            to="/claimsdashboard"
+            className="block py-2 px-3 rounded hover:bg-blue-700"
+            onClick={toggleSidebar}
+          >
+            Claim Dashboard
           </Link>
 
           {/* Patients */}

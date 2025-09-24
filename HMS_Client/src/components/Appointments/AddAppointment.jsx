@@ -1,31 +1,90 @@
 import React, { useState } from "react";
 
-export default function AddAppointment({ onAdd }) {
+export default function AddAppointment() {
   const [form, setForm] = useState({
-    patient: "",
-    timeSlot: "",
-    appointmentType: "",
-    consultationFee: 500,
-    hasInsurance: "no",
-    insuranceProvider: "",
-    policyNumber: "",
+    patientId: "",
+    doctor_name: "",
+    time_of_appointment: "",
+    status: "",
   });
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onAdd(form);
-    setForm({
-      patient: "",
-      timeSlot: "",
-      appointmentType: "",
-      consultationFee: 500,
-      hasInsurance: "no",
-      insuranceProvider: "",
-      policyNumber: "",
-    });
+
+    // payload for appointment
+    const payload = {
+      doctor_name: form.doctor_name,
+      time_of_appointment: form.time_of_appointment,
+      status: form.status,
+      patient: { patientId: Number(form.patientId) }, // ✅ backend expects patientId
+    };
+
+    try {
+      // Step 1: create appointment
+      const response = await fetch("http://localhost:9090/api/appointments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        const appointment = await response.json();
+        console.log("✅ Appointment created:", appointment);
+
+        // Step 2: create bill for this appointment
+        const billPayload = {
+          appointment: { appointment_id: appointment.appointment_id },
+          amount: 500,
+          status: "PAID",
+        };
+
+        const billResponse = await fetch(
+          "http://localhost:9090/bill/create",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(billPayload),
+          }
+        );
+
+        if (billResponse.ok) {
+          const billText = await billResponse.text(); // 👈 plain text
+          console.log("✅ Bill created (raw):", billText);
+
+          // Step 3: fetch structured JSON bill via byAppointment endpoint
+          const billJsonRes = await fetch(
+            `http://localhost:9090/byAppointment/${appointment.appointment_id}`
+          );
+          if (billJsonRes.ok) {
+            const billJson = await billJsonRes.json();
+            console.log("📦 Bill fetched as JSON:", billJson);
+            alert("Appointment & Bill created successfully!");
+          } else {
+            alert("Appointment created, but error fetching bill JSON");
+          }
+        } else {
+          console.error("❌ Failed to create bill");
+          alert("Appointment created, but error creating bill");
+        }
+
+        // reset form
+        setForm({
+          patientId: "",
+          doctor_name: "",
+          time_of_appointment: "",
+          status: "",
+        });
+      } else {
+        console.error("❌ Failed to create appointment");
+        alert("Error creating appointment");
+      }
+    } catch (err) {
+      console.error("⚠️ Error:", err);
+      alert("Server error");
+    }
   };
 
   return (
@@ -38,75 +97,64 @@ export default function AddAppointment({ onAdd }) {
           Book Appointment
         </h2>
 
-        {/* Patient Name */}
+        {/* Patient ID */}
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm mb-1">
-            Patient Name
-          </label>
+          <label className="block text-gray-700 text-sm mb-1">Patient ID</label>
           <input
-            name="patient"
-            placeholder="Enter patient name"
-            value={form.patient}
+            name="patientId"
+            placeholder="Enter patient ID"
+            value={form.patientId}
+            onChange={handleChange}
+            type="number"
+            className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+            required
+          />
+        </div>
+
+        {/* Doctor Name */}
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm mb-1">Doctor Name</label>
+          <input
+            name="doctor_name"
+            placeholder="Enter doctor name"
+            value={form.doctor_name}
             onChange={handleChange}
             className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
         </div>
 
-        {/* Time Slot Dropdown */}
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm mb-1">Time Slot</label>
-          <select
-            name="timeSlot"
-            value={form.timeSlot}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
-            required
-          >
-            <option value="">Select a time slot</option>
-            <option>09:00 AM - 10:00 AM</option>
-            <option>10:00 AM - 11:00 AM</option>
-            <option>11:00 AM - 12:00 PM</option>
-            <option>02:00 PM - 03:00 PM</option>
-            <option>03:00 PM - 04:00 PM</option>
-          </select>
-        </div>
-
-        {/* Appointment Type */}
+        {/* Appointment Time */}
         <div className="mb-4">
           <label className="block text-gray-700 text-sm mb-1">
-            Appointment Type
-          </label>
-          <select
-            name="appointmentType"
-            value={form.appointmentType}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
-            required
-          >
-            <option value="">Select appointment type</option>
-            <option>Consultation</option>
-            <option>Surgery</option>
-            <option>Operation</option>
-            <option>Blood Test</option>
-            <option>Other</option>
-          </select>
-        </div>
-
-        {/* Consultation Fee */}
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm mb-1">
-            Consultation Fee
+            Time of Appointment
           </label>
           <input
-            name="consultationFee"
-            value={`$${form.consultationFee}`}
-            readOnly
-            className="w-full px-4 py-2 border rounded-xl bg-gray-100 text-gray-700 cursor-not-allowed"
+            name="time_of_appointment"
+            type="time"
+            value={form.time_of_appointment}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+            required
           />
         </div>
 
-      
+        {/* Status */}
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm mb-1">Status</label>
+          <select
+            name="status"
+            value={form.status}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+            required
+          >
+            <option value="">Select status</option>
+            <option value="SCHEDULED">Scheduled</option>
+            <option value="COMPLETED">Completed</option>
+            <option value="CANCELLED">Cancelled</option>
+          </select>
+        </div>
 
         <button
           type="submit"
