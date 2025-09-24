@@ -19,13 +19,13 @@ public class ClaimResponseListener {
         this.claimRepository = claimRepository;
         this.billRepository = billRepository;
     }
-
+    //consumer
     @KafkaListener(topics = "claims.responses", groupId = "hospital")
     public void onClaimResponse(ClaimResponseEvent resp) {
         Claim claim = claimRepository.findById(resp.getClaimId()).orElse(null);
         if (claim == null) return;
 
-        if ("APPROVED".equalsIgnoreCase(resp.getStatus())) {
+        if (resp.getStatus().equals("APPROVED")) {
             claim.setClaimStatus(Claim.ClaimStatus.APPROVED);
 
             Bill bill = billRepository.findById(claim.getBillId()).orElse(null);

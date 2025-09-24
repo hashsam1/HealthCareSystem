@@ -20,7 +20,7 @@ public class InsurerClaimProcessor {
     }
 
 
-    @KafkaListener(topics = "claims.requests", groupId = "insurer")
+    @KafkaListener(topics = "claims.requests" ,groupId = "insurer")
     public void handleClaimRequest(ClaimRequestEvent request) {
         System.out.println("Insurer received claim: " + request);
 
@@ -41,7 +41,7 @@ public class InsurerClaimProcessor {
         );
 
         kafkaTemplate.send("claims.responses", response);
-        //System.out.println("📥 Insurer received claim: " + request.getClaimId() + " -> " + request.getClaimAmount());
+        //System.out.println(" Insurer received claim: " + request.getClaimId() + " -> " + request.getClaimAmount());
 
     }
 }

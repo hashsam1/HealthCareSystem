@@ -32,6 +32,7 @@ public class ClaimService {
     public List<Claim> getAllClaims() {
         return claimRepository.findAll();
     }
+
     public Claim createAndSendClaim(double amount, String policyId,int billId) {
         Claim existingClaim = claimRepository.findByBillId(billId);
         if (existingClaim != null) {

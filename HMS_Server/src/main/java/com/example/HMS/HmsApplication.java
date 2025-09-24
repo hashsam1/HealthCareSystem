@@ -28,6 +28,6 @@ public class HmsApplication {
 
     @GetMapping("/")
     public String home() {
-        return "HMS Backend is Running 🚀";
+        return "HMS Backend is Running ";
     }
 }
