@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";  
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   FaBars,
@@ -10,17 +10,24 @@ import {
 } from "react-icons/fa";
 import { useAuth } from "../AuthContext";
 
+
 export default function NavBar({ children, darkMode, setDarkMode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState(null);
 
-  const navigate = useNavigate(); 
-  
+  const navigate = useNavigate();
+
   const toggleSidebar = () => setIsOpen(!isOpen);
   const toggleSubmenu = (menu) =>
-  setOpenMenu(openMenu === menu ? null : menu);
+    setOpenMenu(openMenu === menu ? null : menu);
 
-  const {logout} = useAuth()
+  const { logout } = useAuth()
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const adminStatus = localStorage.getItem("isAdmin") === "true";
+    setIsAdmin(adminStatus);
+  }, []);
 
   const handleLogout = () => {
     logout()
@@ -70,15 +77,22 @@ export default function NavBar({ children, darkMode, setDarkMode }) {
             </button>
             {openMenu === "patients" && (
               <div className="ml-6 mt-1 space-y-1">
-                <Link to="/patients" onClick={toggleSidebar} className="block py-1 px-2 rounded hover:bg-blue-700">
-                  Patient List
-                </Link>
-                <Link to="/patients/add" onClick={toggleSidebar} className="block py-1 px-2 rounded hover:bg-blue-700">
-                  Add Patient
-                </Link>
-                <Link to="/patients/1" onClick={toggleSidebar} className="block py-1 px-2 rounded hover:bg-blue-700">
-                  View Patient
-                </Link>
+                {isAdmin ? (
+                  <>
+                    <Link to="/patients" onClick={toggleSidebar} className="block py-1 px-2 rounded hover:bg-blue-700">
+                      List Patients
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/patients/add" onClick={toggleSidebar} className="block py-1 px-2 rounded hover:bg-blue-700">
+                      Add Details
+                    </Link>
+                    <Link to={`/patients/${localStorage.getItem("patientId")}`} onClick={toggleSidebar} className="block py-1 px-2 rounded hover:bg-blue-700">
+                      Patient Details
+                    </Link>
+                  </>
+                )}
               </div>
             )}
           </div>
@@ -96,15 +110,22 @@ export default function NavBar({ children, darkMode, setDarkMode }) {
             </button>
             {openMenu === "appointments" && (
               <div className="ml-6 mt-1 space-y-1">
-                <Link to="/appointments" onClick={toggleSidebar} className="block py-1 px-2 rounded hover:bg-blue-700">
-                  Appointment List
-                </Link>
-                <Link to="/appointments/add" onClick={toggleSidebar} className="block py-1 px-2 rounded hover:bg-blue-700">
-                  Add Appointment
-                </Link>
-                <Link to="/appointments/1" onClick={toggleSidebar} className="block py-1 px-2 rounded hover:bg-blue-700">
-                  View Appointment
-                </Link>
+                {isAdmin ? (
+                  <>
+                    <Link to="/appointments" onClick={toggleSidebar} className="block py-1 px-2 rounded hover:bg-blue-700">
+                      Appointment List
+                    </Link>
+                    <Link to="/appointments" onClick={toggleSidebar} className="block py-1 px-2 rounded hover:bg-blue-700">
+                      View Appointment
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/appointments/add" onClick={toggleSidebar} className="block py-1 px-2 rounded hover:bg-blue-700">
+                      Book Appointment
+                    </Link>
+                  </>
+                )}
               </div>
             )}
           </div>
@@ -133,9 +154,12 @@ export default function NavBar({ children, darkMode, setDarkMode }) {
       <div className={`flex-1 transition-all duration-300 ${isOpen ? "ml-64" : "ml-0"} h-20`}>
         {/* Top bar */}
         <div className="p-4 bg-gradient-to-r from-teal-600 to-blue-600 dark:bg-gray-800 text-white shadow h-20 flex justify-between items-center">
-          <button onClick={toggleSidebar} className="text-2xl">
-            <FaBars />
-          </button>
+          <div className="flex justify-start">
+            <button onClick={toggleSidebar} className="text-2xl mr-5">
+              <FaBars />
+            </button>
+            <h1 className="text-3xl font-bold">Hello, {localStorage.getItem("username")} - ID:{localStorage.getItem("patientId")}</h1>
+          </div>
           <h1 className="text-4xl font-bold">HealthCare</h1>
 
         </div>

@@ -23,6 +23,7 @@ export default function AddPatient() {
 
       if (response.ok) {
         const data = await response.json();
+        localStorage.setItem("patientId", data.patientId)
         console.log("Patient added successfully:", data);
         alert("Patient added successfully!");
         setForm({ name: "", age: "", gender: "", phoneNumber: "" });
@@ -40,10 +41,10 @@ export default function AddPatient() {
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-50 to-blue-100">
       <form
         onSubmit={handleSubmit}
-        className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md"
+        className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-xl"
       >
         <h2 className="text-3xl font-bold text-blue-600 mb-6 text-center">
-          Add Patient
+          Add Patient Details
         </h2>
 
         {/* Name */}

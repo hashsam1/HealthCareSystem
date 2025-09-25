@@ -20,10 +20,9 @@ export function AuthProvider({ children }) {
 
   // logout function
   const logout = () => {
-    localStorage.removeItem("auth");
-    localStorage.removeItem("google_token");
-    localStorage.removeItem("user");
+    localStorage.clear();
     setIsAuthenticated(false);
+
   };
 
   return (

@@ -10,6 +10,7 @@ import Dashboard from "./components/Dashboard.jsx";
 import AddPatient from "./components/Patients/AddPatient.jsx";
 import PatientList from "./components/Patients/PatientList.jsx";
 import ViewPatient from "./components/Patients/ViewPatient.jsx";
+import PatientDetails from "./components/Patients/PatientDetails.jsx";
 
 import AddAppointment from "./components/Appointments/AddAppointment.jsx";
 import AppointmentList from "./components/Appointments/AppointmentList.jsx";
@@ -78,7 +79,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          
+
 
           <Route
             path="/claimsdashboard"
@@ -117,7 +118,7 @@ function App() {
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
                 <AppLayout>
-                  <ViewPatient />
+                  <PatientDetails />
                 </AppLayout>
               </ProtectedRoute>
             }

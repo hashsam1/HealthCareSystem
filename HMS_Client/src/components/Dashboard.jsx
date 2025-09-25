@@ -27,27 +27,27 @@ const services = [
 ];
 
 const doctors = [
-  { 
-    name: "Dr. Sarah Johnson", 
-    specialty: "Cardiologist", 
+  {
+    name: "Dr. Sarah Johnson",
+    specialty: "Cardiologist",
     photo: "https://randomuser.me/api/portraits/women/44.jpg",
     description: "Experienced in diagnosing and treating heart conditions with a focus on preventive care."
   },
-  { 
-    name: "Dr. Michael Lee", 
-    specialty: "Pediatrician", 
+  {
+    name: "Dr. Michael Lee",
+    specialty: "Pediatrician",
     photo: "https://randomuser.me/api/portraits/men/46.jpg",
     description: "Dedicated to children’s health and development, providing compassionate pediatric care."
   },
-  { 
-    name: "Dr. Emily Davis", 
-    specialty: "Radiologist", 
+  {
+    name: "Dr. Emily Davis",
+    specialty: "Radiologist",
     photo: "https://randomuser.me/api/portraits/women/65.jpg",
     description: "Specializes in medical imaging to accurately diagnose and support treatment planning."
   },
-  { 
-    name: "Dr. James Smith", 
-    specialty: "Surgeon", 
+  {
+    name: "Dr. James Smith",
+    specialty: "Surgeon",
     photo: "https://randomuser.me/api/portraits/men/52.jpg",
     description: "Expert in performing complex surgical procedures with precision and patient care."
   },
@@ -140,7 +140,7 @@ export default function Dashboard() {
             <div className="absolute bg-black/50 inset-0"></div>
             <div className="relative z-10">
               <h2 className="text-3xl md:text-6xl font-bold mb-4">
-                Your Health,Our Priority
+                Your Health, Our Priority
               </h2>
               <div className="space-x-4 mt-10">
                 <Link

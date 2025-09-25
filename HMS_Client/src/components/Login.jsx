@@ -13,16 +13,31 @@ function AuthForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate()
-  const {login} = useAuth();
-  
+  const { login } = useAuth();
+
   // Google login handler
   const LoginGoogle = useGoogleLogin({
-    onSuccess: (res) => {
-  console.log("Google Login Success:", res);
-  localStorage.setItem("google_token", res.access_token || res.credential);
-  login(); // <-- update context state immediately
-  navigate("/dashboard");
-},
+    onSuccess: async (res) => {
+      try {
+        // fetch user profile from Google
+        const profileRes = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+          headers: {
+            Authorization: `Bearer ${res.access_token}`,
+          },
+        });
+
+        const profile = await profileRes.json();
+        console.log("Google Profile:", profile);
+
+        localStorage.setItem("username", profile.name || "");
+        localStorage.setItem("isAdmin", "false"); // default non-admin
+
+        login(); // update auth context
+        navigate("/dashboard");
+      } catch (err) {
+        console.error("Fetching Google profile failed", err);
+      }
+    },
     onError: () => {
       console.log("Google Login Failed");
     },
@@ -49,6 +64,18 @@ function AuthForm() {
   // Handle login
   const handleLogin = (e) => {
     e.preventDefault();
+    // Check for admin credentials first
+    if (username === "admin" && password === "admin") {
+      localStorage.setItem("isAdmin", "true");
+      localStorage.setItem("username", username)
+      login();
+      alert("Admin login successful!");
+      navigate("/dashboard");
+      return;
+    }
+    else {
+      localStorage.setItem("isAdmin", "false");
+    }
     const savedUser = JSON.parse(localStorage.getItem("user"));
 
     if (!savedUser) {
@@ -62,6 +89,7 @@ function AuthForm() {
       savedUser.username === username &&
       savedUser.passwordHash === enteredHash
     ) {
+      localStorage.setItem("username", username)
       login(); // <-- call AuthContext login()
       alert("Login successful!");
       navigate("/dashboard"); // redirect after login
